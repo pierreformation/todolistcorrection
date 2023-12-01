@@ -13,8 +13,6 @@ function App() {
 
   const myNewList = list.filter((el) => el.name.includes(searchTerm));
 
-  console.log("myNewList", myNewList);
-
   return (
     <div className="App">
       <div className="title">TODOLIST</div>
@@ -36,25 +34,25 @@ function App() {
               onClick={() => {
                 const arrCopy = JSON.parse(JSON.stringify(list));
 
-                // const myTruePosition = list.indexOf((el2) => {
-                //   console.log("el2,", el2);
-                //   return el2.name === element.name;
-                // });
+                const myTruePosition = list
+                  // [{name:"toto",done:true},{name:"tata",done:true}]
+                  .map((el) => el.name) // transformer le tableau d'objet en tableau de string
+                  //  ["toto","tata"]
+                  .indexOf(element.name);
 
-                // console.log("myTruePosition", myTruePosition);
-                arrCopy[i].done = !arrCopy[i].done;
+                arrCopy[myTruePosition].done = !arrCopy[myTruePosition].done;
                 setList(arrCopy);
               }}
               className={!element.done ? "element" : "elementLT"}
             >
               {element.name}
               <button
-                onClick={() => {
-                  console.log("jai clique sur la croix", i);
+                onClick={(e) => {
+                  e.stopPropagation();
                   // chercher la position dans le tableau original
-                  const myTruePosition = list.indexOf(
-                    (el2) => el2.name === element.name
-                  );
+                  const myTruePosition = list
+                    .map((el) => el.name)
+                    .indexOf(element.name);
                   // 1 copy
                   const newArr = JSON.parse(JSON.stringify(list));
                   // 2 operation
